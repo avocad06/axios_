@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import '../login.css'
-import { loginUser } from "../reducer/useSlice";
-
+import { loginUser, clearUser } from "../reducer/useSlice";
 
 const Login = () => {
 
     const [cookies, setCookie] = useCookies(['id'])
-
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.info);
+    
 
     // 사용자 이메일, 비밀번호 상태 관리
     const [email, setEmail] = useState("");
@@ -74,23 +74,45 @@ const Login = () => {
                 password: pw,
             };
 
-            // setcookie 저장할 토큰 이름 access, 토큰
-            const token = cookies.token;
-
             axios.post("http://127.0.0.1:8000/users/auth/", data)
                 .then((res) => {
-                    console.log(res.data);
-                    setCookie('access', res.data.token);
+                    
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token.access}`;
+                    
+                    setCookie('refresh', res.data.token.refresh);
                     dispatch(loginUser(res.data.user))
+                    
+                    
                 }).catch(error => { });
 
         }
+        
+    }
+    const onClickrefreshButton = (e) => {
+        e.preventDefault();
+        const refresh = {
+            'refresh': cookies.refresh
+        }
+        axios.post("http://127.0.0.1:8000/users/auth/refresh/", refresh)
+        .then((res) => {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
+        }).catch(error => { });
+    }
+
+    const onClickLogout = (e) => {
+        e.preventDefault();
+        axios.delete("http://127.0.0.1:8000/users/auth/")
+        .then((res) => {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${""}`;
+            dispatch(clearUser(res.data.user))
+        }).catch(error => { });
     }
 
 
-
     return (
+        
         <div className="Login">
+            
             <form>
                 <div className="titleWrap">
                     이메일과 비밀번호를
@@ -141,12 +163,19 @@ const Login = () => {
                     <button type="submit" onClick={onClickConfirmButton} disabled={notAllow} className="bottomButton">
                         확인
                     </button>
+                    <button type="submit" onClick={onClickrefreshButton} disabled={notAllow} className="bottomButton">
+                        리프레쉬
+                    </button>
+                    <button type="submit" onClick={onClickLogout} disabled={notAllow} className="bottomButton">
+                        로그아웃
+                    </button>
                 </div>
             </form>
 
 
         </div >
     )
+    
 }
 
 export default Login
