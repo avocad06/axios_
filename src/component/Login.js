@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import '../login.css'
-import { onLogin, onSilentRefresh, onLoginSuccess } from "../modules/Cookie";
 
 const Login = () => {
 
@@ -68,8 +67,14 @@ const Login = () => {
             const data = {
                 email,
                 password: pw,
-            }
-            onLogin(data)
+            };
+
+            axios.get("url", data)
+                .then((res) => {
+                    console.log(res.data);
+                    dispatch(loginUser(res.data.user))
+                }).catch(error => { });
+
         }
     }
 
