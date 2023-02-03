@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { Cookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import '../login.css'
 import { loginUser } from "../reducer/useSlice";
@@ -70,9 +71,10 @@ const Login = () => {
                 password: pw,
             };
 
-            axios.get("url", data)
+            axios.post("http://127.0.0.1:8000/users/auth/", data)
                 .then((res) => {
                     console.log(res.data);
+                    
                     dispatch(loginUser(res.data.user))
                 }).catch(error => { });
 
