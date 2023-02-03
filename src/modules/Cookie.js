@@ -1,9 +1,10 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../reducer/useSlice";
 
 const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
 
 export const onLogin = (data) => {
-
     axios.get('hithere/list', data)
         .then(onLoginSuccess)
         .catch(error => { });
@@ -11,7 +12,11 @@ export const onLogin = (data) => {
 
 export const onSilentRefresh = () => {
     axios.get('/silent-refresh')
-        .then(onLoginSuccess)
+        .then((response => {
+            loginUser(response.data.user);
+            onLoginSuccess;
+        })
+        )
         .catch(error => {
 
         })

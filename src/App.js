@@ -2,7 +2,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './component/Login';
-import store from './store';
+import store from './reducer/store';
 import { up } from './counterSlice';
 
 
