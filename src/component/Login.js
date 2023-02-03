@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { Cookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import '../login.css'
 import { loginUser } from "../reducer/useSlice";
 
+
 const Login = () => {
+
+    const [cookies, setCookie] = useCookies(['id'])
 
     const dispatch = useDispatch();
 
@@ -71,10 +74,13 @@ const Login = () => {
                 password: pw,
             };
 
+            // setcookie 저장할 토큰 이름 access, 토큰
+            const token = cookies.token;
+
             axios.post("http://127.0.0.1:8000/users/auth/", data)
                 .then((res) => {
                     console.log(res.data);
-                    
+                    setCookie('access', res.data.token);
                     dispatch(loginUser(res.data.user))
                 }).catch(error => { });
 

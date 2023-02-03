@@ -4,6 +4,7 @@ import './App.css';
 import Login from './component/Login';
 import store from './reducer/store';
 import { up } from './counterSlice';
+import { CookiesProvider } from 'react-cookie'
 
 
 const Counter = () => {
@@ -27,12 +28,14 @@ const Counter = () => {
 
 function App() {
   return (
-    <Provider store={store}>
-      <Routes>
-        <Route path="login" element={<Login />}></Route>
-        <Route path="counter" element={<Counter />}></Route>
-      </Routes>
-    </Provider >
+    <CookiesProvider>
+      <Provider store={store}>
+        <Routes>
+          <Route path="login" element={<Login />}></Route>
+          <Route path="counter" element={<Counter />}></Route>
+        </Routes>
+      </Provider >
+    </CookiesProvider>
   );
 }
 
