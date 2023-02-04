@@ -3,14 +3,15 @@ import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import '../login.css'
+import { onLogin, onLogout } from "../modules/token";
 import { loginUser, clearUser } from "../reducer/useSlice";
 
 const Login = () => {
 
-    const [cookies, setCookie] = useCookies(['id'])
+    const [cookies, setCookie, removeCookie] = useCookies(['id'])
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.info);
-    
+    const user = useSelector((state) => state.user);
+
 
     // 사용자 이메일, 비밀번호 상태 관리
     const [email, setEmail] = useState("");
@@ -73,46 +74,37 @@ const Login = () => {
                 email,
                 password: pw,
             };
-
-            axios.post("http://127.0.0.1:8000/users/auth/", data)
-                .then((res) => {
-                    
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token.access}`;
-                    
-                    setCookie('refresh', res.data.token.refresh);
-                    dispatch(loginUser(res.data.user))
-                    
-                    
-                }).catch(error => { });
-
+            const refresh = onLogin(data);
+            setCookie('refresh', refresh);
+            dispatch(loginUser(data))
         }
-        
+
     }
+
+    // 실험을 위해 남겨놓기
     const onClickrefreshButton = (e) => {
         e.preventDefault();
         const refresh = {
             'refresh': cookies.refresh
         }
         axios.post("http://127.0.0.1:8000/users/auth/refresh/", refresh)
-        .then((res) => {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
-        }).catch(error => { });
+            .then((res) => {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
+            }).catch(error => { });
     }
 
     const onClickLogout = (e) => {
+        removeCookie('refresh')
         e.preventDefault();
-        axios.delete("http://127.0.0.1:8000/users/auth/")
-        .then((res) => {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${""}`;
-            dispatch(clearUser(res.data.user))
-        }).catch(error => { });
+        onLogout();
+
     }
 
 
     return (
-        
+
         <div className="Login">
-            
+
             <form>
                 <div className="titleWrap">
                     이메일과 비밀번호를
@@ -175,7 +167,7 @@ const Login = () => {
 
         </div >
     )
-    
+
 }
 
 export default Login
