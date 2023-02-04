@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 export const userSlice = createSlice({
     name: "user",
@@ -11,8 +10,6 @@ export const userSlice = createSlice({
     },
     reducers: {
         loginUser: (state, action) => {
-            // json payload에 있는 name 프로퍼티의 값
-            state.name = action.payload.name;
             state.email = action.payload.email;
             state.isLogined = true;
         },
@@ -20,8 +17,9 @@ export const userSlice = createSlice({
         // 로그아웃시 user state초기화
         clearUser: (state) => {
             state.name = "";
-            state.id = "";
+            state.email = "";
             state.isLogined = false;
+            console.log(current(state), 486)
         },
     },
 });
