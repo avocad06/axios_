@@ -5,7 +5,8 @@ import Login from './component/Login';
 import store from './reducer/store';
 import { up } from './counterSlice';
 import { CookiesProvider } from 'react-cookie'
-
+import { Navbar } from './navbar';
+import { NavBarCss } from './NavbarCss';
 
 const Counter = () => {
   const dispatch = useDispatch();
@@ -30,9 +31,11 @@ function App() {
   return (
     <CookiesProvider>
       <Provider store={store}>
+        <Navbar />
         <Routes>
           <Route path="login" element={<Login />}></Route>
           <Route path="counter" element={<Counter />}></Route>
+          <Route path="navbar" element={<NavBarCss />}></Route>
         </Routes>
       </Provider >
     </CookiesProvider>

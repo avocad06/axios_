@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import '../login.css'
 import { loginUser } from "../reducer/useSlice";
 
 
 const Login = () => {
+
+    const user = useSelector((state) => state.user);
 
     const [cookies, setCookie] = useCookies(['id'])
 
