@@ -35,7 +35,7 @@ function App() {
         <Routes>
           <Route path="login" element={<Login />}></Route>
           <Route path="counter" element={<Counter />}></Route>
-          <Route path="navbar" element={<NavBarCss />}></Route>
+          
         </Routes>
       </Provider >
     </CookiesProvider>

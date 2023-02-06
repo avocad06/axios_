@@ -3,6 +3,7 @@ import { FaBars, FaSistrix } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import logo from './logo2.png'
 import { useState } from 'react'
+import { Link } from "react-router-dom";
 
 export const NavBarCss = () => {
     const [searchOpen, setSearchOpen] = useState(false);

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import '../login.css'
-import { onLogin, onLogout } from "../modules/token";
+import { onLogin, onLogout, onSilentRefresh } from "../modules/token";
 import { loginUser, clearUser } from "../reducer/useSlice";
-
+import {getAll, details, browser} from "react-cookie";
 const Login = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(['id'])
@@ -75,28 +75,30 @@ const Login = () => {
                 password: pw,
             };
             const refresh = onLogin(data);
-            setCookie('refresh', refresh);
+            // setCookie('refresh', refresh);
+            
             dispatch(loginUser(data))
+            
         }
-
     }
 
     // 실험을 위해 남겨놓기
     const onClickrefreshButton = (e) => {
         e.preventDefault();
-        const refresh = {
-            'refresh': cookies.refresh
-        }
-        axios.post("http://127.0.0.1:8000/users/auth/refresh/", refresh)
-            .then((res) => {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
-            }).catch(error => { });
+        let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
+        
+        onSilentRefresh(testValue)
+        
+        // axios.post("http://127.0.0.1:8000/users/auth/refresh/")
+        //     .then((res) => {
+        //         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
+        //     }).catch(error => { });
     }
 
     const onClickLogout = (e) => {
-        removeCookie('refresh')
         e.preventDefault();
         onLogout();
+        dispatch(clearUser());
 
     }
 
