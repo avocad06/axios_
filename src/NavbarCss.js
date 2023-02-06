@@ -1,4 +1,3 @@
-import './NCS.css'
 import { FaBars, FaSistrix } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import logo from './logo2.png'

@@ -127,84 +127,134 @@ Variables
     margin: 0 auto;
     max-width: var(--max-width);
   }
-  
-  @media screen and (min-width: 992px) {
-    .section {
-      width: 95vw;
-    }
-  }
-  
-  /*
-  =============== 
-  Navbar
-  ===============
-  */
-  nav {
-    background: var(--clr-white);
-    box-shadow: var(--light-shadow);
-  }
-  .nav-header {
+
+nav {
+  background: var(--clr--white);
+  box-shadow: var(--light-shadow);
+}
+
+.nav-header {
+  /* 햄버거 버튼이랑 로고 가로 배치 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+nav .btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  width: 12vw;
+}
+nav button {
+  font-size: 1.5rem;
+  color: var(--clr-primary-5);
+  background: transparent;
+  border-color: transparent;
+  transition: var(--transition);
+  cursor: pointer;
+  margin-left: .5rem;
+}
+
+/* Search */
+.search-btn-open {
+  visibility: hidden;
+}
+
+/* overlay 창 */
+.Search {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 80px;
+}
+
+.search-box {
+  position: fixed;
+  max-width: 1170px;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+  padding: 120px 40px;
+  transition: .2s;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 20px;
+  border: transparent;
+  border-bottom: 1px solid var(--clr-grey-1);
+  padding-bottom: 10px;
+  font-size: 1.2rem;
+  outline: none;
+}
+
+.search-btn-open
+
+
+
+.nav-toggle:hover {
+  color: var(--clr--primary-1);
+  transform: rotate(90deg);
+}
+.logo {
+  height: 40px;
+}
+.links a {
+  color: var(--clr-grey-3);
+  font-size: 1rem;
+  letter-spacing: var(--spacing);
+  display: block;
+  /* 리스트 요소 하나의 크기를 지정 */
+  padding: .5rem 1rem;
+  transition: var(--transition);
+}
+.links a:hover {
+  background: var(--clr-primary-8);
+  color: var(--clr-primary-5);
+  padding-left: 1.5rem;
+}
+nav .Avatar {
+  display: none;
+}
+.links-container {
+  /* 모바일 사이즈에서 토글 누르기 전까지 링크 숨겨짐 */
+  height: 0;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.show-container {
+  height: 10rem;
+}
+@media screen and (min-width: 800px) {
+  /* 최대 넓어져도 */
+  .nav-center {
+    max-width: 1170px;
+    /* 가운데 정렬 */
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    /* 소셜/프로필 등 nav-header요소 외의 것들 때문에 */
     padding: 1rem;
+
   }
-  .nav-toggle {
-    font-size: 1.5rem;
-    color: var(--clr-primary-5);
-    background: transparent;
-    border-color: transparent;
-    transition: var(--transition);
-    cursor: pointer;
-  }
-  .nav-toggle:hover {
-    color: var(--clr-primary-1);
-    transform: rotate(90deg);
-  }
-  .logo {
-    height: 40px;
-  }
-  .links a {
-    color: var(--clr-grey-3);
-    font-size: 1rem;
-    text-transform: capitalize;
-    letter-spacing: var(--spacing);
-    display: block;
-    padding: 0.5rem 1rem;
-    transition: var(--transition);
-  }
-  .links a:hover {
-    background: var(--clr-primary-8);
-    color: var(--clr-primary-5);
-    padding-left: 1.5rem;
-  }
-  .social-icons {
-    display: none;
-  }
-  .links-container {
-    height: 0;
-    overflow: hidden;
-    transition: var(--transition);
-  }
-  .show-container {
-    height: 10rem;
-  }
-  @media screen and (min-width: 800px) {
-    .nav-center {
-      max-width: 1170px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-    }
+
     .nav-header {
       padding: 0;
     }
+
+    /* 데스크탑 사이즈에서는 안 보이게 */
     .nav-toggle {
       display: none;
     }
+    /* 데스크탑 사이즈에서는 */
     .links-container {
+      /* 모바일 사이즈에서 height: 0px로 설정해놨으므로 덮어쓰도록 !important */
       height: auto !important;
     }
     .links {
@@ -212,21 +262,27 @@ Variables
     }
     .links a {
       padding: 0;
-      margin: 0 0.5rem;
+      /* 패딩 대신 각자 바깥쪽으로 마진주기 */
+      margin: 0 .5rem;
     }
     .links a:hover {
       padding: 0;
       background: transparent;
     }
-    .social-icons {
+    nav .Avatar {
       display: flex;
     }
-    .social-icons a {
-      margin: 0 0.5rem;
+    nav .Avatar a {
+      margin: 0 .5rem;
       color: var(--clr-primary-5);
       transition: var(--transition);
     }
-    .social-icons a:hover {
+    nav .Avatar a:hover {
       color: var(--clr-primary-7);
     }
-  }
+
+    nav .profile-img {
+      border-radius: 50%;
+      height: 40px;
+    }
+}
