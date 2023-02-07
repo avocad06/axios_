@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import '../login.css'
 import { onLogin, onLogout, onSilentRefresh } from "../modules/token";
 import { loginUser, clearUser } from "../reducer/useSlice";
-import {getAll, details, browser} from "react-cookie";
-const Login = () => {
+import { useNavigate } from "react-router-dom";
 
+const Login = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['id'])
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
-
+    const navigate = useNavigate();
 
     // 사용자 이메일, 비밀번호 상태 관리
     const [email, setEmail] = useState("");
@@ -74,14 +74,12 @@ const Login = () => {
                 email,
                 password: pw,
             };
-            const refresh = onLogin(data);
-            // setCookie('refresh', refresh);
-            
+            onLogin(data);
             dispatch(loginUser(data))
+            
             
         }
     }
-
     // 실험을 위해 남겨놓기
     const onClickrefreshButton = (e) => {
         e.preventDefault();

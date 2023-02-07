@@ -52,6 +52,7 @@ export const Navbar = () => {
                             <FaTwitter />
                         </a>
                     </li>
+                    <Link to="/Login"><button>로그인</button></Link>
                     {user}
                 </ul>
             </div>

@@ -7,6 +7,11 @@ import { up } from './counterSlice';
 import { CookiesProvider } from 'react-cookie'
 import { Navbar } from './navbar';
 import { NavBarCss } from './NavbarCss';
+import { useEffect } from 'react';
+import { onSilentRefresh } from './modules/token';
+import { loginUser, clearUser } from "./reducer/useSlice";
+import axios from 'axios';
+import { useCookies } from "react-cookie";
 
 const Counter = () => {
   const dispatch = useDispatch();
@@ -26,8 +31,17 @@ const Counter = () => {
     </div>
   )
 }
-
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['refresh'])
+  const dispatch = useDispatch();
+  let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/users/auth/', {"refresh":String(testValue)})
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(error => { });
+  }, [])
   return (
     <CookiesProvider>
       <Provider store={store}>
@@ -40,6 +54,7 @@ function App() {
       </Provider >
     </CookiesProvider>
   );
+  
 }
 
 export default App;
