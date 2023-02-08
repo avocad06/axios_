@@ -35,10 +35,12 @@ function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['refresh'])
   const dispatch = useDispatch();
   let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
+  
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/users/auth/', {"refresh":String(testValue)})
+    axios.get('http://127.0.0.1:8000/users/auth/')
         .then((response) => {
-          console.log(response)
+          console.log(response, "?")
+          
         })
         .catch(error => { });
   }, [])

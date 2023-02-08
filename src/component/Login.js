@@ -84,7 +84,7 @@ const Login = () => {
     const onClickrefreshButton = (e) => {
         e.preventDefault();
         let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
-        
+        console.log("freshbutton")
         onSilentRefresh(testValue)
         
         // axios.post("http://127.0.0.1:8000/users/auth/refresh/")

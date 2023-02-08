@@ -25,12 +25,14 @@ export const onSilentRefresh = (refresh) => {
     //
     //   });
     if (refresh){
+        console.log(refresh, 1)
         axios.post('http://127.0.0.1:8000/users/auth/refresh/', {"refresh":String(refresh)})
         .then((response) => {
             onAuthorize(response);
             return response.data})
             .catch(error => { });
     }
+    
 }
 
 // 인가함수
@@ -48,6 +50,7 @@ export const onLogout = () => {
         .then((res) => {
             console.log(res)
             removeCookie('refresh');
+            
             axios.defaults.headers.common['Authorization'] = null;
         })
 }
