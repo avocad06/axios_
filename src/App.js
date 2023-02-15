@@ -12,6 +12,8 @@ import { onSilentRefresh } from './modules/token';
 import { loginUser, clearUser } from "./reducer/useSlice";
 import axios from 'axios';
 import { useCookies } from "react-cookie";
+import Test from './test';
+// import { Test } from './test';
 
 const Counter = () => {
   const dispatch = useDispatch();
@@ -35,28 +37,34 @@ function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['refresh'])
   const dispatch = useDispatch();
   let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
-  
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/users/auth/')
-        .then((response) => {
-          console.log(response, "?")
-          
-        })
-        .catch(error => { });
-  }, [])
+
+  const userInfo = useSelector(state => state.user.email);
+
+
+  // useEffect(() => {
+  //   axios.get('http://127.0.0.1:8000/users/auth/').then(
+  //     (res) => {
+  //       console.log(res)
+  //       dispatch(loginUser(res.data))
+  //     }
+  //   )
+  // }, [])
+
+
   return (
     <CookiesProvider>
       <Provider store={store}>
-        <Navbar />
+        <Navbar re={testValue ? testValue : null} />
         <Routes>
           <Route path="login" element={<Login />}></Route>
           <Route path="counter" element={<Counter />}></Route>
-          
+          <Route path='suspense' element={<Test />}></Route>
+
         </Routes>
       </Provider >
     </CookiesProvider>
   );
-  
+
 }
 
 export default App;

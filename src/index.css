@@ -198,6 +198,9 @@ Variables
       justify-content: space-between;
       padding: 1rem;
     }
+    .nav-center ul {
+      display: flex;
+    }
     .nav-header {
       padding: 0;
     }

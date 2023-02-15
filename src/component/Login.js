@@ -7,7 +7,7 @@ import { onLogin, onLogout, onSilentRefresh } from "../modules/token";
 import { loginUser, clearUser } from "../reducer/useSlice";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ login }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['id'])
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
@@ -26,7 +26,10 @@ const Login = () => {
     const [pwValid, setPwValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
 
-    useEffect(() => { }, [])
+    // useEffect(() => {
+    //     axios.get('http://127.0.0.1:8000/users/auth/', { withCredentials: true })
+    //         .then((res) => console.log(res, "thisis"))
+    // }, [])
 
     useEffect(() => {
         if (emailValid && pwValid) {
@@ -35,6 +38,11 @@ const Login = () => {
         } setNotAllow(true);
 
     }, [emailValid, pwValid]);
+
+    useEffect(() => {
+        let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
+        if (testValue) onSilentRefresh(testValue)
+    }, [user])
 
     // 이메일과 비밀번호가 모두 유효할 때(valid state가 변화할 때)
     const handleEmail = (e) => {
@@ -76,17 +84,20 @@ const Login = () => {
             };
             onLogin(data);
             dispatch(loginUser(data))
-            
-            
+            // navigate("/")
+
+
         }
     }
     // 실험을 위해 남겨놓기
     const onClickrefreshButton = (e) => {
         e.preventDefault();
-        let testValue = document.cookie.split('; ').find((row) => row.startsWith('refresh'))?.split('=')[1];
+        // console.log(testValue)
         console.log("freshbutton")
-        onSilentRefresh(testValue)
-        
+
+
+
+
         // axios.post("http://127.0.0.1:8000/users/auth/refresh/")
         //     .then((res) => {
         //         axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
@@ -97,9 +108,7 @@ const Login = () => {
         e.preventDefault();
         onLogout();
         dispatch(clearUser());
-
     }
-
 
     return (
 
