@@ -69,6 +69,9 @@ const Login = ({ login }) => {
         }
     };
 
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
     const onClickConfirmButton = async (e) => {
         e.preventDefault();
 
@@ -81,6 +84,9 @@ const Login = ({ login }) => {
                 email,
                 password: pw,
             };
+            /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+            /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+            /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
             const result = await onLogin(data);
             dispatch(loginUser({ email: result.email }));
             // navigate("/");

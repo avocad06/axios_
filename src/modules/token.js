@@ -1,15 +1,21 @@
 import axios from "axios";
 import { getCookie, setCookie, removeCookie } from "./Cookies";
 export const onLogin = async (body) => {
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    const { email, password } = body;
     const data = {
-        email: body.email,
-        password: body.password,
+        email,
+        password,
     };
 
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
+    /////////// 이부분 수정했습니다~~~~~~~~~~~~~~~~
     const result = await axios
         .post("http://127.0.0.1:8000/users/auth/", data, { withCredentials: true })
         .then((res) => {
-            console.log(res);
             setCookie("refresh", res.data.token.refresh);
             return {
                 email: res.data.user.email,
