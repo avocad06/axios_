@@ -90,6 +90,7 @@ export const Navbar = ({ re }) => {
                 {/* 로그아웃한 상태에서 새로고침했을 경우(페이지 첫 진입) */}
                 {/* {status === "rejected" && !userInfo.email && <Link to="login">로그인</Link>} */}
                 {userInfo.email ? <Link to="login">{userInfo.email}</Link> : <Link to="login">로그인</Link>}
+                {}
             </div>
         </nav>
     );
